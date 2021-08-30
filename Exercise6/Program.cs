@@ -53,10 +53,10 @@ namespace Exercise6
                         list.Clear();
                         break;
                     case 10:
-                        list.RemoveAll(e => e.typeOfEquipment.CompareTo(TypeOfEquipment.Immobile) == 0);
+                        list.RemoveAll(e => e.EquipmentType.CompareTo(TypeOfEquipment.Immobile) == 0);
                         break;
                     case 11:
-                        list.RemoveAll(e => e.typeOfEquipment.CompareTo(TypeOfEquipment.Mobile) == 0);
+                        list.RemoveAll(e => e.EquipmentType.CompareTo(TypeOfEquipment.Mobile) == 0);
                         break;
                     case 12:
                         PrintInstructions();
@@ -78,11 +78,11 @@ namespace Exercise6
         {
             Console.WriteLine("Enter name of equipment");
             string name = Console.ReadLine();
-            foreach (Equipment e in list)
+            foreach (Equipment equipment in list)
             {
-                if (e.name.Equals(name))
+                if (equipment.Name.ToLower().Equals(name.ToLower()))
                 {
-                    e.PrintDetails();
+                    equipment.PrintDetails();
                     return;
                 }
             }
@@ -95,11 +95,11 @@ namespace Exercise6
             string name = Console.ReadLine();
             Console.WriteLine("Enter distance by which it was moved");
             int dist = int.Parse(Console.ReadLine());
-            foreach (Equipment e in list)
+            foreach (Equipment equipment in list)
             {
-                if (e.name.Equals(name))
+                if (equipment.Name.ToLower().Equals(name.ToLower()))
                 {
-                    e.MovedBy(dist);
+                    equipment.MovedBy(dist);
                     return;
                 }
             }
@@ -112,9 +112,9 @@ namespace Exercise6
             string name = Console.ReadLine();
 
             int i = 0;
-            foreach(Equipment e in list)
+            foreach(Equipment equipment in list)
             {
-                if (e.name.Equals(name))
+                if (equipment.Name.ToLower().Equals(name.ToLower()))
                 {
                     list.RemoveAt(i);
                     return;
@@ -153,7 +153,7 @@ namespace Exercise6
                     list.Add(immobile);
                     break;
                 case 3:
-                    FillListOfEquipments();
+                    CreateRandomEquipments();
                     break;
                 default:
                     Console.WriteLine("Please enter valid input");
@@ -184,7 +184,7 @@ namespace Exercise6
         private static void ListEquipmentsWhichAreNotMoved()
         {
             var notMovedEquipments = from equipment in list
-                                     where equipment.distanceMovedTillDate == 0
+                                     where equipment.DistanceMovedTillDate == 0
                                      select equipment;
             Console.WriteLine("Listing all equipments which haven't been moved till date...");
             foreach (Equipment equipment in notMovedEquipments)
@@ -195,21 +195,21 @@ namespace Exercise6
 
         private static void ListAllImmobileEquipments()
         {
-            var allImmobileEquipments = list.FindAll(e => e.typeOfEquipment.CompareTo(TypeOfEquipment.Immobile) == 0);
+            var allImmobileEquipments = list.FindAll(e => e.EquipmentType.CompareTo(TypeOfEquipment.Immobile) == 0);
             Console.WriteLine("Listing all Immobile equipments...");
             foreach (Equipment equipment in allImmobileEquipments)
             {
-                Console.WriteLine(equipment.name + " : " + equipment.description);
+                Console.WriteLine(equipment.Name + " : " + equipment.Description);
             }
         }
 
         private static void ListAllMobileEquipments()
         {
-            var allMobileEquipments = list.FindAll(e => e.typeOfEquipment.CompareTo(TypeOfEquipment.Mobile) == 0);
+            var allMobileEquipments = list.FindAll(e => e.EquipmentType.CompareTo(TypeOfEquipment.Mobile) == 0);
             Console.WriteLine("Listing all mobile equipments...");
             foreach(Equipment equipment in allMobileEquipments)
             {
-                Console.WriteLine(equipment.name + " : " + equipment.description);
+                Console.WriteLine(equipment.Name + " : " + equipment.Description);
             }
         }
 
@@ -218,7 +218,7 @@ namespace Exercise6
             Console.WriteLine("Listing all equipments...");
             foreach(Equipment equipment in list)
             {
-                Console.WriteLine(equipment.name + " : " + equipment.description);
+                Console.WriteLine(equipment.Name + " : " + equipment.Description);
             }
         }
 
@@ -227,7 +227,7 @@ namespace Exercise6
             Console.WriteLine("***********************");
         }
 
-        private static void FillListOfEquipments()
+        private static void CreateRandomEquipments()
         {
             Equipment jcb = new MobileEquipment(4, "JCB", "Used in digging.");
             Equipment jeep = new MobileEquipment(4, "Jeep", "Used in travelling when you have more number of people.");

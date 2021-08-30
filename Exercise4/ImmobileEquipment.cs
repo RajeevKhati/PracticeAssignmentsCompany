@@ -11,19 +11,20 @@ namespace Exercise4
         public ImmobileEquipment(int weight, string name, string description) : base(name, description)
         {
             this.weight = weight;
-            this.typeOfEquipment = TypeOfEquipment.Immobile;
+            this.EquipmentType = TypeOfEquipment.Immobile;
         }
 
         public override void MovedBy(int distanceMoved)
         {
-            this.distanceMovedTillDate += distanceMoved;
-            this.maintenanceCost += weight * distanceMoved;
+            this.DistanceMovedTillDate += distanceMoved;
+            this.MaintenanceCost += weight * distanceMoved;
         }
 
         public override void PrintDetails()
         {
             base.PrintDetails();
             Console.WriteLine("weight: " + weight);
+            Console.WriteLine("***************");
         }
     }
 }

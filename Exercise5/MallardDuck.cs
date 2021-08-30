@@ -8,7 +8,7 @@ namespace Exercise5
     {
         public MallardDuck(int weight, int numberOfWings) : base(weight, numberOfWings)
         {
-            this.typeOfDuck = TypeOfDuck.Mallard;
+            this.DuckType = TypeOfDuck.Mallard;
         }
         public override void Fly()
         {

@@ -9,39 +9,39 @@ namespace Exercise7
 {
     class ListOfDucks : IEnumerable
     {
-        List<Duck> myList;
+        List<Duck> MyListOfDucks;
 
         public ListOfDucks()
         {
-            myList = new List<Duck>();
+            MyListOfDucks = new List<Duck>();
         }
 
         public void AddADuck(Duck duck)
         {
-            myList.Add(duck);
+            MyListOfDucks.Add(duck);
         }
 
         public void RemoveADuck(Duck duck)
         {
-            myList.Remove(duck);
+            MyListOfDucks.Remove(duck);
         }
 
         public void RemoveAllDucks()
         {
-            myList.Clear();
+            MyListOfDucks.Clear();
         }
 
         public IEnumerator GetEnumerator()
         {
-            return (from duck in myList
-                   orderby duck.weight
+            return (from duck in MyListOfDucks
+                   orderby duck.Weight
                    select duck).GetEnumerator();
         }
 
         public void IterateInOrderOfWings()
         {
-            var ducks = from duck in myList
-                        orderby duck.numberOfWings
+            var ducks = from duck in MyListOfDucks
+                        orderby duck.NumberOfWings
                         select duck;
             foreach(Duck duck in ducks)
             {

@@ -11,16 +11,16 @@ namespace Exercise4
     }
     public abstract class Equipment
     {
-        public string name;
-        public string description;
-        public int distanceMovedTillDate;
-        public int maintenanceCost;
-        public TypeOfEquipment typeOfEquipment;
+        public string Name;
+        public string Description;
+        public int DistanceMovedTillDate;
+        public int MaintenanceCost;
+        public TypeOfEquipment EquipmentType;
 
         public Equipment(string name, string description)
         {
-            this.name = name;
-            this.description = description;
+            this.Name = name;
+            this.Description = description;
         }
 
 
@@ -28,16 +28,16 @@ namespace Exercise4
 
         public virtual void PrintDetails()
         {
-            Console.WriteLine("name : " + this.name);
-            Console.WriteLine("description: " + this.description);
-            Console.WriteLine("distance moved till date: " + this.distanceMovedTillDate);
-            Console.WriteLine("maintenance cost: " + this.maintenanceCost);
-            Console.WriteLine("type of equipment: " + this.typeOfEquipment);
+            Console.WriteLine("name : " + this.Name);
+            Console.WriteLine("description: " + this.Description);
+            Console.WriteLine("distance moved till date: " + this.DistanceMovedTillDate);
+            Console.WriteLine("maintenance cost: " + this.MaintenanceCost);
+            Console.WriteLine("type of equipment: " + this.EquipmentType);
         }
 
         public override string ToString()
         {
-            return this.name;
+            return this.Name;
         }
     }
 }

@@ -10,14 +10,14 @@ namespace Exercise5
     }
     public abstract class Duck : IDuck
     {
-        public int weight;
-        public int numberOfWings;
-        public TypeOfDuck typeOfDuck;
+        public int Weight;
+        public int NumberOfWings;
+        public TypeOfDuck DuckType;
 
         public Duck(int weight, int numberOfWings)
         {
-            this.weight = weight;
-            this.numberOfWings = numberOfWings;
+            this.Weight = weight;
+            this.NumberOfWings = numberOfWings;
         }
 
         public abstract void Fly();
@@ -25,9 +25,9 @@ namespace Exercise5
 
         public void Details()
         {
-            Console.WriteLine("Weight: " + this.weight);
-            Console.WriteLine("Number of wings: " + this.numberOfWings);
-            Console.WriteLine("Type of duck: " + this.typeOfDuck);
+            Console.WriteLine("Weight: " + this.Weight);
+            Console.WriteLine("Number of wings: " + this.NumberOfWings);
+            Console.WriteLine("Type of duck: " + this.DuckType);
             this.Fly();
             Console.WriteLine("AND");
             this.Quack();
@@ -36,7 +36,7 @@ namespace Exercise5
 
         public override string ToString()
         {
-            return $"Type: {typeOfDuck}, Weight: {weight}, Number of wings: {numberOfWings}";
+            return $"Type: {DuckType}, Weight: {Weight}, Number of wings: {NumberOfWings}";
         }
 
     }

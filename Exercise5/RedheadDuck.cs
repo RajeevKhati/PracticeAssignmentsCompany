@@ -9,7 +9,7 @@ namespace Exercise5
 
         public RedheadDuck(int weight, int numberOfWings) : base(weight, numberOfWings)
         {
-            this.typeOfDuck = TypeOfDuck.Redhead;
+            this.DuckType = TypeOfDuck.Redhead;
         }
         public override void Fly()
         {

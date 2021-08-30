@@ -10,7 +10,7 @@ namespace Exercise10
             pq.Enqueue(1, "Binod");
             pq.Enqueue(8, "Adil");
             pq.Enqueue(2, "Suresh");
-            //pq.Enqueue(1, "Venkatesh");
+            pq.Enqueue(1, "Venkatesh");
             pq.Enqueue(4, "Adarsh");
             pq.Enqueue(3, "Raj");
             pq.Enqueue(10, "Sanket");

@@ -9,7 +9,7 @@ namespace Exercise7
         static void Main(string[] args)
         {
             ListOfDucks ducks = new ListOfDucks();
-            ducks = getDucks();
+            ducks = GetDucks();
 
             //this foreach iterates ducks collection according to increasing number of weights
             foreach(Duck duck in ducks)
@@ -21,7 +21,7 @@ namespace Exercise7
 
         }
 
-        private static ListOfDucks getDucks()
+        private static ListOfDucks GetDucks()
         {
             Duck d1 = new RubberDuck(1, 1);
             Duck d2 = new RubberDuck(2, 3);

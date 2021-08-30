@@ -14,7 +14,7 @@ namespace Exercise12
             Console.WriteLine("Original List :-");
             Print(list);
             //1.Find Odd - Lambda Expression
-            IEnumerable<int> oddNums = list.Where(num => num % 2 == 1);
+            IEnumerable<int> oddNums = list.Where(num => num % 2 != 0);
             Console.WriteLine("Odd Numbers :-");
             Print(oddNums);
 
