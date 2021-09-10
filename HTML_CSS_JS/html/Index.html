@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.0/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-KyZXEAg3QhqLMpG8r+8fhAXLRk2vvoC2f3B09zVXn8CA5QIVfZOJ3BCsw2P0p/We" crossorigin="anonymous">
+    <link rel="stylesheet" href="../css/styles.css">
+    <title>Student Enrollment Form</title>
+</head>
+<body>
+    <div class="container-fluid overflow-hidden">
+
+        <header class="row">
+            <div class="col">
+                <div class="text-center p-2 h4">Student Enrollment Form</div> 
+            </div>
+        </header>
+
+
+        <div class="row justify-content-around">
+            <div class="col-sm-5 col-lg-4 pt-3">
+                <div class="py-4 pb-5">
+                    <form id="studentForm">
+                        <div class="row mb-2">
+                            <label for="name" class="col-sm-4 col-form-label-sm">Name</label>
+                            <div class="col-sm-7">
+                              <input type="text" id="name" class="form-control form-control-sm" required>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label for="email" class="col-sm-4 col-form-label-sm">Email</label>
+                            <div class="col-sm-7">
+                              <input type="email" id="email" class="form-control form-control-sm" required>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                            <label for="website" class="col-sm-4 col-form-label-sm">Website</label>
+                            <div class="col-sm-7">
+                              <input type="url" id="website" class="form-control form-control-sm" required>
+                            </div>
+                        </div>
+                        <div class="row mb-2">
+                              <label for="imageLink" class="col-sm-4 col-form-label-sm">Image link</label>
+                            <div class="col-sm-7">
+                              <input type="url" id="imageLink" class="form-control form-control-sm" required>
+                            </div>
+                        </div>
+
+
+
+                        <fieldset class="row mb-2">
+                            <legend class="col-form-label-sm col-sm-4 pt-0">Gender</legend>
+                            <div class="col-sm-7">
+                              <div class="form-check ps-0">
+                                <input class="form-check-input-sm" type="radio" name="gender" id="male" value="male" required>
+                                <label class="col-form-label-sm p-0" for="male">
+                                  Male
+                                </label>
+                              </div>
+                              <div class="form-check ps-0">
+                                <input class="form-check-input-sm" type="radio" name="gender" id="female" value="female">
+                                <label class="col-form-label-sm p-0" for="female">
+                                  Female
+                                </label>
+                              </div>
+                            </div>
+                        </fieldset>
+
+
+                        <div class="row mb-2">
+                            <div class="col-sm-4 col-form-label-sm">
+                                Skills
+                            </div>
+                            <div class="col-sm-8">
+                                <div class="form-check form-check-inline ps-0">
+                                    <input class="form-check-input-sm" type="checkbox" id="java" value="Java" name="lang" required>
+                                    <label class="col-form-label-sm p-0 " for="java">Java</label>
+                                </div>
+                                <div class="form-check form-check-inline ps-0">
+                                    <input class="form-check-input-sm" type="checkbox" id="html" value="HTML" name="lang">
+                                    <label class="col-form-label-sm p-0" for="html">HTML</label>
+                                </div>
+                                <div class="form-check form-check-inline ps-0">
+                                    <input class="form-check-input-sm" type="checkbox" id="css" value="CSS" name="lang">
+                                    <label class="col-form-label-sm p-0" for="css">CSS</label>
+                                </div>
+                            </div>
+                        </div>
+
+
+                        <div class="row g-3">
+                            <button type="submit" class="btn btn-primary col-lg-5 me-4" id="submitEntry">Enroll Student</button>
+                            <button type="reset" class="btn btn-danger col-lg-3">Clear</button>
+                        </div>
+
+                    </form>
+                </div> 
+            </div>
+
+            <div class="d-none d-sm-block col-sm-1 vl"></div>
+
+            <div class="col-sm-6 col-lg-4 py-4">
+                    <h5 class="text-center pb-4">Enrolled Students</h5>
+                    <table id="studentTable">
+                        <thead>
+                            <tr>
+                                <th>Description</th>
+                                <th>Image</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tableBody">
+
+                        </tbody>
+                    </table>
+            </div>
+        </div>
+
+
+        <footer class="row">
+            <div class="col">
+                <div class="text-center p-0 h6">Copyright 2020-2021 by Fresher Training</div> 
+            </div>
+        </footer>
+
+    </div>
+
+    <script src="../javascript/index.js"></script>
+
+</body>
+</html>

@@ -1,0 +1,77 @@
+header{
+    background-color: #47d7ac;
+    color: aliceblue;
+}
+footer{
+    background-color: #47d7ac;
+    color: aliceblue;
+}
+
+th:nth-child(1){
+    border-left: 1px solid #7fa721;
+}
+
+td, th{
+    border-bottom: 1px solid #7fa721;
+    border-right: 1px solid #7fa721;
+    padding: 4px;
+}
+
+img{
+    object-fit: contain;
+    height: 100%;
+    width: 100%;
+}
+
+
+tr{
+    display: grid;
+    grid-template-columns: 3fr 1.2fr;
+}
+
+#studentTable{
+    
+    border-top: 1px solid #7fa721;
+    font-size: 0.8em;
+    width: 100%;
+    margin: auto;
+}
+
+thead tr{
+    background-color:#99c928;
+    color: white;
+    text-align: left;
+}
+
+tr td div:nth-child(1){
+    font-weight: bold;
+    
+}
+
+tr td:nth-child(1){
+    border-left: 1px solid #7fa721;
+    font-weight: 500;
+}
+
+.vl {
+  height: 300px;
+  border: 1px solid #47d7ac;
+  background-color: #47d7ac;
+  width: fit-content;
+  padding: 0%;
+  margin: 2%;
+}
+
+td{
+    animation: fadeIn 1.2s;
+}
+
+@keyframes fadeIn {
+    from{
+        opacity: 0;
+    }
+
+    to{
+        opacity: 1;
+    }
+}

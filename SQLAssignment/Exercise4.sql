@@ -6,6 +6,23 @@
 	This function uses SalesOrderId to get Quantity, ProductID, UnitPrice AND it uses Curency code and date to convert the UnitPrice from USD to given 'Currency Code' (using the Sales.CurrencyRate table) and Calls it "ConvertedUnitPrice".
 */
 
+CREATE FUNCTION [dbo].[fn_GetSalesOrderDetails](@salesOrderId int, @currencyCode nchar(3), @date datetime)
+RETURNS @salesOrderDetails TABLE (Quantity smallint, ProductID int, UnitPrice money, ConvertedUnitPrice money)
+AS
+BEGIN
+DECLARE @endOfDayRate money;
+SELECT @endOfDayRate = ISNULL(EndOfDayRate, 1)
+		FROM Sales.CurrencyRate
+		WHERE ToCurrencyCode = @currencyCode
+		AND CurrencyRateDate = @date
+	INSERT INTO @salesOrderDetails
+		SELECT OrderQty, ProductID, UnitPrice, UnitPrice*@endOfDayRate
+		FROM Sales.SalesOrderDetail
+		WHERE SalesOrderID = @salesOrderId
+	RETURN
+END
+GO
+
 --Declaring some dummy varibales to pass to fn_GetSalesOrderDetails() function as params.
 DECLARE @salesOrderId int = 43661
 DECLARE @currencyCode nchar(3) = 'ARS'
