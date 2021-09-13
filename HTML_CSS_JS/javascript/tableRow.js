@@ -1,4 +1,10 @@
 function createAndInsertTableRow(table, name, email, website, imageLink, gender, skills){
+    //Removing 'No Data' row
+    let firstRow = table.rows[0];
+    if(firstRow.cells[0].innerHTML === "No Data"){
+        firstRow.remove();
+    }
+
     //-1 refers to adding a new row at the end of all rows of the table
     let newRow = table.insertRow(-1);
 

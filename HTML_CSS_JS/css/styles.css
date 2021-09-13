@@ -3,9 +3,19 @@ header{
     color: aliceblue;
 }
 
+header .text-center{
+    font-size: x-large;
+    font-weight: 500;
+}
+
 footer{
     background-color: #47d7ac;
     color: aliceblue;
+}
+
+footer .text-center{
+    font-size: small;
+    font-weight: 500;
 }
 
 #studentTable{

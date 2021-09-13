@@ -12,7 +12,7 @@
     <div class="container-fluid overflow-hidden">
         <header class="row">
             <div class="col">
-                <div class="text-center p-2 h4">Student Enrollment Form</div>
+                <div class="text-center p-2">Student Enrollment Form</div>
             </div>
         </header>
 
@@ -51,7 +51,7 @@
                         <div class="row mb-2">
                               <label for="imageLink" class="col-sm-4 col-form-label-sm">Image link</label>
                             <div class="col-sm-7">
-                              <input type="url" id="imageLink" class="form-control form-control-sm">
+                              <input type="url" id="imageLink" class="form-control form-control-sm" required>
                               <div class="invalid-feedback">Please enter a valid Image URL</div>
                             </div>
                         </div>
@@ -79,13 +79,13 @@
                         </fieldset>
 
 
-                        <div class="row mb-2">
-                            <div class="col-sm-4 col-form-label-sm">
+                        <fieldset class="row mb-2 ">
+                            <legend class="col-sm-4 col-form-label-sm">
                                 Skills
-                            </div>
+                            </legend>
                             <div class="col-sm-8">
-                                <div class="form-check form-check-inline ps-0">
-                                    <input class="form-check-input-sm" type="checkbox" id="java" value="Java" name="lang" required>
+                                <div class="form-check form-check-inline ps-0" id="formCheckbox">
+                                    <input class="form-check-input-sm"  type="checkbox" id="java" value="Java" name="lang">
                                     <label class="col-form-label-sm p-0 " for="java">Java</label>
                                 </div>
                                 <div class="form-check form-check-inline ps-0">
@@ -96,8 +96,10 @@
                                     <input class="form-check-input-sm" type="checkbox" id="css" value="CSS" name="lang">
                                     <label class="col-form-label-sm p-0" for="css">CSS</label>
                                 </div>
+                                <div class="invalid-feedback">Please choose atleast one option</div>
                             </div>
-                        </div>
+
+                        </fieldset>
 
 
                         <div class="row gap-3 ps-2">
@@ -111,26 +113,29 @@
 
             <div class="d-none d-sm-block col-sm-1 verticalLine"></div>
 
-            <div class="col-sm-6 col-lg-4 py-4">
-                    <h5 class="text-center pb-4">Enrolled Students</h5>
-                    <table id="studentTable">
-                        <thead>
-                            <tr>
-                                <th>Description</th>
-                                <th>Image</th>
-                            </tr>
-                        </thead>
-                        <tbody id="tableBody">
-
-                        </tbody>
-                    </table>
+            <div class="col-sm-6 col-lg-4 py-4 mb-4">
+                <h5 class="text-center pb-4">Enrolled Students</h5>
+                <table id="studentTable">
+                    <thead>
+                        <tr>
+                            <th>Description</th>
+                            <th>Image</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tableBody">
+                        <tr>
+                            <td>No Data</td>
+                            <td>No Image</td>
+                        </tr>
+                    </tbody>
+                </table>
             </div>
         </div>
 
 
-        <footer class="row align-items-end">
+        <footer class="row fixed-bottom">
             <div class="col">
-                <div class="text-center p-0 h6">Copyright 2020-2021 by Fresher Training</div> 
+                <div class="text-center p-1">Copyright 2020-2021 by Fresher Training</div> 
             </div>
         </footer>
 

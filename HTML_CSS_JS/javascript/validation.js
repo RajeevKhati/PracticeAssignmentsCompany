@@ -6,11 +6,12 @@ function validateFormElements(){
     let isNameValid = checkNameValidation();
     let isEmailValid = checkEmailValidation();
     let isWebsiteValid = checkWebsiteValidation();
-    // let isImageLinkValid = checkImageLinkValidation();
+    let isImageLinkValid = checkImageLinkValidation();
     let isGenderValid = checkGenderValidation();
+    let isSkillSelected = checkIfSkillsSelected();
     
     //If any one validation is false then we make our final validation false
-    let isFormValid = isNameValid && isEmailValid && isWebsiteValid && isGenderValid; /*&& isImageLinkValid*/
+    let isFormValid = isNameValid && isEmailValid && isWebsiteValid && isGenderValid && isImageLinkValid && isSkillSelected;
 
     return isFormValid;
 }
@@ -70,27 +71,41 @@ function checkWebsiteValidation(){
     }
 }
 
-// function checkImageLinkValidation(){
-//     let imageElement = document.getElementById('imageLink');
-//     if(imageElement.checkValidity()){
-//         imageElement.classList.remove('is-invalid');
-//         return true;
-//     }else{
-//         imageElement.classList.add('is-invalid');
-//         return false;
-//     }
-// }
+//checking imageUrl validation
+//It ensures user must input a image url and shouldn't leave input blank
+function checkImageLinkValidation(){
+    let imageElement = document.getElementById('imageLink');
+    if(imageElement.checkValidity()){
+        imageElement.classList.remove('is-invalid');
+        return true;
+    }else{
+        imageElement.classList.add('is-invalid');
+        return false;
+    }
+}
 
 //This method ensures user must select one of the two options given for gender
 function checkGenderValidation(){
     let genderElement = document.querySelector('input[name="gender"]:checked');
-    let fieldSet = document.querySelector("fieldset");
+    let fieldSet = document.querySelector("#gender");
     if(genderElement){
         fieldSet.classList.remove('was-validated');
         return true;
     }else{
         fieldSet.classList.add('was-validated');
         return false;
+    }
+}
+
+function checkIfSkillsSelected(){
+    let skillsSelected = document.querySelectorAll('input[name="lang"]:checked');
+    let formCheckElement = document.querySelector('#formCheckbox');
+    if(skillsSelected.length===0){
+        formCheckElement.classList.add('is-invalid');
+        return false;
+    }else{
+        formCheckElement.classList.remove('is-invalid');
+        return true;
     }
 }
 
