@@ -1,18 +1,27 @@
 function validateFormElements(){
+    /**
+     * Checking validation of each form elements separately
+     * each method will return true or false depending on whether validation was successful or not.
+     */
     let isNameValid = checkNameValidation();
     let isEmailValid = checkEmailValidation();
     let isWebsiteValid = checkWebsiteValidation();
-    let isImageLinkValid = checkImageLinkValidation();
+    // let isImageLinkValid = checkImageLinkValidation();
     let isGenderValid = checkGenderValidation();
     
-    let isFormValid = isNameValid && isEmailValid && isWebsiteValid && isImageLinkValid && isGenderValid;
+    //If any one validation is false then we make our final validation false
+    let isFormValid = isNameValid && isEmailValid && isWebsiteValid && isGenderValid; /*&& isImageLinkValid*/
 
     return isFormValid;
 }
 
+//Checking name input validation
+/**
+ * This method ensures user didn't left the input blank and
+ * it also ensures user has input only characters and not any number or special symbol
+ */
 function checkNameValidation(){
     let name = document.getElementById('name');
-
     let errorDiv1 = name.nextElementSibling;
     let errorDiv2 = errorDiv1.nextElementSibling;
     
@@ -34,6 +43,8 @@ function checkNameValidation(){
     }
 }
 
+//checking email validation
+//It ensures user must input an email address and shouldn't leave input blank
 function checkEmailValidation(){
     let email = document.getElementById('email');
     if ((/^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.\w{2,3})+$/).test(email.value)){
@@ -45,6 +56,8 @@ function checkEmailValidation(){
     }
 }
 
+//checking websiteUrl validation
+//It ensures user must input a url and shouldn't leave input blank
 function checkWebsiteValidation(){
     let website = document.getElementById('website');
     let urlRegExp = /https?:\/\/(www\.)?[-a-zA-Z0-9@:%._\+~#=]{2,256}\.[a-z]{2,4}\b([-a-zA-Z0-9@:%_\+.~#?&//=]*)/;
@@ -57,17 +70,18 @@ function checkWebsiteValidation(){
     }
 }
 
-function checkImageLinkValidation(){
-    let imageElement = document.getElementById('imageLink');
-    if(imageElement.checkValidity()){
-        imageElement.classList.remove('is-invalid');
-        return true;
-    }else{
-        imageElement.classList.add('is-invalid');
-        return false;
-    }
-}
+// function checkImageLinkValidation(){
+//     let imageElement = document.getElementById('imageLink');
+//     if(imageElement.checkValidity()){
+//         imageElement.classList.remove('is-invalid');
+//         return true;
+//     }else{
+//         imageElement.classList.add('is-invalid');
+//         return false;
+//     }
+// }
 
+//This method ensures user must select one of the two options given for gender
 function checkGenderValidation(){
     let genderElement = document.querySelector('input[name="gender"]:checked');
     let fieldSet = document.querySelector("fieldset");

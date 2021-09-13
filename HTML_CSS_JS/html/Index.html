@@ -10,7 +10,6 @@
 </head>
 <body>
     <div class="container-fluid overflow-hidden">
-
         <header class="row">
             <div class="col">
                 <div class="text-center p-2 h4">Student Enrollment Form</div>
@@ -18,7 +17,7 @@
         </header>
 
         <div class="row">
-            <div class="alert alert-danger text-center p-1" role="alert" id="alert">
+            <div class="alert alert-danger text-center p-1" role="alert" id="sameEmailAlert">
                 You can't insert two entries with same email Id
             </div>
         </div>
@@ -52,7 +51,7 @@
                         <div class="row mb-2">
                               <label for="imageLink" class="col-sm-4 col-form-label-sm">Image link</label>
                             <div class="col-sm-7">
-                              <input type="url" id="imageLink" class="form-control form-control-sm" required>
+                              <input type="url" id="imageLink" class="form-control form-control-sm">
                               <div class="invalid-feedback">Please enter a valid Image URL</div>
                             </div>
                         </div>
@@ -101,16 +100,16 @@
                         </div>
 
 
-                        <div class="row g-3">
-                            <button type="submit" class="btn btn-primary col-lg-5 me-4" id="submitEntry">Enroll Student</button>
-                            <button type="reset" class="btn btn-danger col-lg-3">Clear</button>
+                        <div class="row gap-3 ps-2">
+                            <button type="submit" class="btn btn-primary col-lg-5 col-sm-7 col-5" id="submitEntry">Enroll Student</button>
+                            <button type="reset" class="btn btn-danger col-lg-3 col-sm-4 col-3">Clear</button>
                         </div>
 
                     </form>
                 </div> 
             </div>
 
-            <div class="d-none d-sm-block col-sm-1 vl"></div>
+            <div class="d-none d-sm-block col-sm-1 verticalLine"></div>
 
             <div class="col-sm-6 col-lg-4 py-4">
                     <h5 class="text-center pb-4">Enrolled Students</h5>

@@ -51,8 +51,8 @@ tr td:nth-child(1){
     font-weight: 500;
 }
 
-.vl {
-  height: 300px;
+.verticalLine {
+  height: 350px;
   border: 1px solid #47d7ac;
   background-color: #47d7ac;
   width: fit-content;
@@ -78,7 +78,7 @@ td{
     }
 }
 
-#alert{
+#sameEmailAlert{
     display: none;
     animation: fadeOut 3s;
 }
