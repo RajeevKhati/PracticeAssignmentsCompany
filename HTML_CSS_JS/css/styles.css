@@ -2,35 +2,13 @@ header{
     background-color: #47d7ac;
     color: aliceblue;
 }
+
 footer{
     background-color: #47d7ac;
     color: aliceblue;
 }
 
-th:nth-child(1){
-    border-left: 1px solid #7fa721;
-}
-
-td, th{
-    border-bottom: 1px solid #7fa721;
-    border-right: 1px solid #7fa721;
-    padding: 4px;
-}
-
-img{
-    object-fit: contain;
-    height: 100%;
-    width: 100%;
-}
-
-
-tr{
-    display: grid;
-    grid-template-columns: 3fr 1.2fr;
-}
-
 #studentTable{
-    
     border-top: 1px solid #7fa721;
     font-size: 0.8em;
     width: 100%;
@@ -43,9 +21,29 @@ thead tr{
     text-align: left;
 }
 
+th:nth-child(1){
+    border-left: 1px solid #7fa721;
+}
+
+td, th{
+    border-bottom: 1px solid #7fa721;
+    border-right: 1px solid #7fa721;
+    padding: 4px;
+}
+
+tr{
+    display: grid;
+    grid-template-columns: 3fr 1.2fr;
+}
+
+img{
+    object-fit: contain;
+    height: 100%;
+    width: 100%;
+}
+
 tr td div:nth-child(1){
     font-weight: bold;
-    
 }
 
 tr td:nth-child(1){
@@ -62,6 +60,10 @@ tr td:nth-child(1){
   margin: 2%;
 }
 
+tbody tr:nth-child(even){
+    background-color:rgb(223, 247, 201);
+}
+
 td{
     animation: fadeIn 1.2s;
 }
@@ -73,5 +75,24 @@ td{
 
     to{
         opacity: 1;
+    }
+}
+
+#alert{
+    display: none;
+    animation: fadeOut 3s;
+}
+
+@keyframes fadeOut {
+    0%{
+        opacity: 1;
+    }
+
+    50%{
+        opacity: 1;
+    }
+
+    100%{
+        opacity: 0;
     }
 }
