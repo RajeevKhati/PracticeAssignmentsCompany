@@ -1,0 +1,38 @@
+﻿@using Company.Project.EventDomain.Domain;
+@inject Microsoft.AspNetCore.Identity.SignInManager<ApplicationUser> _signInManager;
+
+@model EventViewModel
+@{
+    ViewData["Title"] = "Details";
+}
+
+
+<div class="card">
+    <div class="card-header">
+        <h3 class="h3">@Model.TitleOfBook.ToUpper()</h3>
+    </div>
+    <div class="card-body">
+        <h5 class="card-title">Details</h5>
+        <p class="card-text">Date : @Model.Date.ToString("dd MMMM yyyy")</p>
+        <p class="card-text">Location : @Model.Location</p>
+        <p class="card-text">Start time : @Model.StartTime.ToString()</p>
+        <p class="card-text">Duration In Hours : @Model.DurationInHours</p>
+        @if (!string.IsNullOrEmpty(Model.Description))
+        {
+            <p class="card-text">Description : @Model.Description</p>
+        }
+        @if (!string.IsNullOrEmpty(Model.OtherDetails))
+        {
+            <p class="card-text">Other Details : @Model.OtherDetails</p>
+        }
+
+        <p class="card-text">Number of people invited: @ViewBag.count</p>
+
+        @if (_signInManager.IsSignedIn(User))
+        {
+            <a asp-controller="Event" asp-action="AddComment" asp-route-eventId="@Model.Id" type="submit" class="btn btn-success">Add Comment</a>
+        }
+    </div>
+</div>
+
+@await Component.InvokeAsync("Comment", new { eventId = Model.Id })

@@ -1,0 +1,18 @@
+﻿@model IEnumerable<EventViewModel>
+
+@{
+    ViewData["Title"] = "Event Invitation";
+}
+
+
+<div class="container">
+    @foreach (var eventView in Model)
+    {
+        <div class="row">
+            <div class="col">
+                <partial name="_EventDetailCard" model="@eventView" />
+            </div>
+        </div>
+    }
+
+</div>

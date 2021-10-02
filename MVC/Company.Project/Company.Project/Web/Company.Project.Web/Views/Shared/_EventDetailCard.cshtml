@@ -1,0 +1,13 @@
+﻿@model EventViewModel
+
+    <div class="card mt-3">
+        <div class="card-body">
+            <h5 class="card-title">
+                <a asp-controller="Event" asp-action="Details" asp-route-eventId="@Model.Id">
+                    @Model.TitleOfBook.ToUpper()
+                </a>
+            </h5>
+            <p class="card-text">@Model.Location</p>
+            <h6 class="card-subtitle mb-2 text-muted">@Model.Date.ToString("dd/MM/yyyy")</h6>
+        </div>
+    </div>

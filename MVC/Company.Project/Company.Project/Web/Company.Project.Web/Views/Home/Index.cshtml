@@ -1,0 +1,55 @@
+﻿@using Company.Project.EventDomain.Domain;
+@inject Microsoft.AspNetCore.Identity.SignInManager<ApplicationUser> _signInManager;
+@model IEnumerable<EventViewModel>
+
+@{
+    ViewData["Title"] = "Home Page";
+}
+
+
+<div class="container">
+    <div class="row justify-content-around">
+        <div class="col-4">
+            <p class="h3 text-center">Upcoming Events</p>
+
+            @foreach (var eventView in Model)
+            {
+                <div class="row">
+                    <div class="col">
+                        @if (eventView.Date.Add(eventView.StartTime) > DateTime.Now)
+                        {
+                            <partial name="_EventDetailCard" model="@eventView" />
+                            @if (_signInManager.IsSignedIn(User) && User.Identity.Name.Equals("myadmin@bookevents.com"))
+                            {
+                                <a asp-controller="Event" asp-action="Edit" asp-route-id="@eventView.Id"
+                                   asp-route-userId="@eventView.UserID" type="submit"
+                                   class="btn btn-success mt-2">
+                                    Edit
+                                </a>
+                            }
+                        }
+                    </div>
+                </div>
+            }
+            
+        </div>
+
+
+        <div class="col-4">
+            <p class="h3 text-center">Past Events</p>
+
+            @foreach (var eventView in Model)
+            {
+                <div class="row">
+                    <div class="col">
+                        @if (eventView.Date.Add(eventView.StartTime) < DateTime.Now)
+                        {
+                            <partial name="_EventDetailCard" model="@eventView" />
+                        }
+                    </div>
+                </div>
+            }
+
+        </div>
+    </div>
+</div>

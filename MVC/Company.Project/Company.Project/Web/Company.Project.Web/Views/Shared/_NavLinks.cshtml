@@ -1,0 +1,20 @@
+﻿@using Company.Project.EventDomain.Domain;
+@inject Microsoft.AspNetCore.Identity.SignInManager<ApplicationUser> _signInManager;
+
+<li class="nav-item">
+    <a class="nav-link text-dark" asp-area="" asp-controller="Home" asp-action="Index">Home</a>
+</li>
+@if (_signInManager.IsSignedIn(User))
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Event" asp-action="MyEvents">My Events</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Event" asp-action="EventsInvitedTo">
+            Events Invited to
+        </a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Event" asp-action="Create">Create Event</a>
+    </li>
+}

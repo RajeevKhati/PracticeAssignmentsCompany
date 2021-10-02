@@ -1,0 +1,19 @@
+﻿@model IEnumerable<EventViewModel>
+
+@{
+    ViewData["Title"] = "Events Created By Me";
+}
+
+
+<div class="container">
+    @foreach (var eventView in Model)
+    {
+        <div class="row">
+            <div class="col">
+                <partial name="_EventDetailCard" model="@eventView" />
+                <a asp-controller="Event" asp-action="Edit" asp-route-id="@eventView.Id" asp-route-userId="@eventView.UserID" 
+                   class="btn btn-primary @(eventView.Date<DateTime.Now ? "disabled" : "") mt-2">Edit</a>
+            </div>
+        </div>
+    }
+</div>

@@ -1,0 +1,27 @@
+﻿@using Company.Project.EventDomain.Domain;
+@inject Microsoft.AspNetCore.Identity.SignInManager<ApplicationUser> _signInManager;
+
+@if (_signInManager.IsSignedIn(User))
+{
+
+    <li class="nav-item dropdown">
+        <a class="nav-link dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            @_signInManager.UserManager.FindByNameAsync(User.Identity.Name).Result.FullName
+        </a>
+        <div class="dropdown-menu">
+            <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Logout">Logout</a>
+        </div>
+    </li>
+}
+else
+{
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="Login">Login</a>
+    </li>
+    <li class="nav-item">
+        <a class="nav-link text-dark" asp-area="" asp-controller="Account" asp-action="SignUp">Register</a>
+    </li>
+}
+
+
+

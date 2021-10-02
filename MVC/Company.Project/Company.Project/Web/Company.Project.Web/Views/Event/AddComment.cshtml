@@ -1,0 +1,25 @@
+﻿@model Company.Project.Web.Models.CommentViewModel
+
+@{
+    ViewData["Title"] = "AddComment";
+}
+
+<h1>Add Comment</h1>
+
+<hr />
+<div class="row">
+    <div class="col-md-4">
+        <form asp-action="AddComment" asp-controller="Event" asp-route-eventId="@ViewBag.eventId">
+            <div asp-validation-summary="ModelOnly" class="text-danger"></div>
+            <div class="form-group">
+                <label asp-for="Content" class="control-label"></label>
+                @Html.TextAreaFor(m => m.Content, new { @class = "form-control" })
+                <span asp-validation-for="Content" class="text-danger"></span>
+            </div>
+            <div class="form-group">
+                <input type="submit" value="Add comment" class="btn btn-primary" />
+            </div>
+        </form>
+    </div>
+</div>
+
