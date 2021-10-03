@@ -15,6 +15,10 @@ using System.Threading.Tasks;
 
 namespace Company.Project.EventDomain.AppServices
 {
+    /// <summary>
+    /// In this class Object comes and returns in Dto form.
+    /// It handles all the operation for modifying/getting from database.
+    /// </summary>
     public class EventAppService : AppService, IEventAppService
     {
 
@@ -22,8 +26,6 @@ namespace Company.Project.EventDomain.AppServices
         private readonly IEventAndPersonRepository _eventAndPersonRepository;
         private readonly IPersonRepository _personRepository;
 
-        //private IApplicationUnitOfWork unitOfWork;
-        //private IExceptionManager exceptionManager;
         private IEventRepository _eventRepository;
         private IAccountRepository _accountRepository;
         private readonly ICommentRepository _commentRepository;
@@ -47,9 +49,22 @@ namespace Company.Project.EventDomain.AppServices
         //Create new event
         public OperationResult<EventDTO> CreateEvent(EventDTO eventDTO)
         {
+            //storing comma separated emails in an array then converting it into hashset.
             string[] emailsArray = eventDTO.InviteByEmail.Split(new[] { ',', ' '}, StringSplitOptions.RemoveEmptyEntries);
             ICollection<string> emailsSet = new HashSet<string>(emailsArray);
 
+            
+            ICollection<string> listOfIds = new List<string>();
+            //This method will store person/user Ids of corresponding emails into listOfIds and will return true or false depending upon if the email provided is present in database or not.
+            bool isConversionValid = _accountRepository.FillListWithCorrespondingUserIds(emailsSet, listOfIds).Result;
+
+            if (!isConversionValid)
+            {
+                Message message = new Message(string.Empty, "User from specified emails in \"Invite By Email Field\" is not valid");
+                return new OperationResult<EventDTO>(eventDTO, false, message);
+            }
+
+            //Creating new event
             Event newEvent = _mapper.Map<EventDTO, Event>(eventDTO);
             newEvent.IsActive = true;
 
@@ -60,17 +75,9 @@ namespace Company.Project.EventDomain.AppServices
 
             _eventRepository.Create(newEvent);
 
-            ICollection<string> listOfIds = new List<string>();
-            bool isConversionValid = _accountRepository.FillListWithCorrespondingUserIds(emailsSet, listOfIds).Result;
-
-            if (!isConversionValid)
-            {
-                Message message = new Message(string.Empty, "User from specified emails in \"Invite By Email Field\" is not valid");
-                return new OperationResult<EventDTO>(eventDTO, false, message);
-            }
-
             result = UnitOfWork.Commit();
 
+            //making a relationship between newly created event and the Ids of users which are invited.
             _eventAndPersonRepository.CreateEventAndPersonRow(listOfIds, newEvent.Id);
 
             eventDTO.Id = newEvent.Id;
@@ -80,10 +87,12 @@ namespace Company.Project.EventDomain.AppServices
         }
 
         //Get all events
+        /// <summary>
+        /// Returns all events sorted by date.
+        /// It also ensures only private events associated with the current user is returned.
+        /// </summary>
         public OperationResult<IEnumerable<EventDTO>> GetAllEvents()
         {
-            //IEnumerable<Event> eventList = _eventRepository.Get().OrderBy(e=>e.Date).ToList<Event>();
-
             IEnumerable<Event> publicEventList = _eventRepository.Get(e => e.Type == false);
             IEnumerable<Event> myPrivateEventList = _eventRepository.Get(e => e.Type).Where(e=> (e.UserID.Equals(GetUserId()) || GetUserId().Equals("8e445865-a24d-4543-a6c6-9443d048cdb9")));
 
@@ -107,6 +116,9 @@ namespace Company.Project.EventDomain.AppServices
         }
 
         //MyEvents
+        /// <summary>
+        /// Return events created by current logged in user in ascending order of Date.
+        /// </summary>
         public OperationResult<IEnumerable<EventDTO>> GetMyEvents()
         {
             string custId = GetUserId();

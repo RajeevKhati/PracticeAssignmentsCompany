@@ -27,14 +27,17 @@ namespace Company.Project.Web.Controllers
 
         public IActionResult Index()
         {
+            //Getting current logged in user id, if it comes out to be null which means no user is logged in.
             var id = _eventAppService.GetUserId();
             dynamic operationResult;
             if (string.IsNullOrEmpty(id))
             {
+                //if user not logged in
                 operationResult = _eventAppService.GetOnlyPublicEvents();
             }
             else
             {
+                //if user logged in.
                 operationResult = _eventAppService.GetAllEvents();
             }
 

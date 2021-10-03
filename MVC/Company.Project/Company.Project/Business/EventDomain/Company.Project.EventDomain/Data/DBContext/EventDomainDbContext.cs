@@ -51,7 +51,10 @@ namespace Company.Project.EventDomain.Data.DBContext
             return base.SaveChanges();
         }
 
-        
+        /// <summary>
+        /// Seeding admin data
+        /// </summary>
+        /// <param name="modelBuilder"></param>
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             base.OnModelCreating(modelBuilder);

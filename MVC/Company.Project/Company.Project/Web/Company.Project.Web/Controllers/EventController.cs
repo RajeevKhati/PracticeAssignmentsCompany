@@ -14,6 +14,10 @@ using System.Threading.Tasks;
 
 namespace Company.Project.Web.Controllers
 {
+    /// <summary>
+    /// This controller uses eventAppService to get, set, modify data.
+    /// eventAppService returns OperationResult, and its Data property has real data which we require.
+    /// </summary>
     public class EventController : Controller
     {
 
@@ -49,7 +53,7 @@ namespace Company.Project.Web.Controllers
         }
 
 
-        // GET: EventController/Details/5 done
+        // GET: EventController/Details/5
         [Route("Event/Details/{eventId:int}")]
         public ActionResult Details(int eventId)
         {
@@ -57,11 +61,13 @@ namespace Company.Project.Web.Controllers
             if (!operationResult.IsSuccess)
             {
                 ErrorViewModel errorView = new ErrorViewModel();
+                //104 means no event exist with corresponding eventId
                 if (operationResult.MainMessage.Code.Equals("104"))
                 {
                     _logger.LogError(operationResult.MainMessage.Text);
                     errorView = new ErrorViewModel { RequestId = Activity.Current?.Id ?? HttpContext.TraceIdentifier };
                 }
+                //If error occurs due to some database failure.
                 else
                 {
                     _logger.LogError(operationResult.MainMessage.Text);
@@ -76,14 +82,14 @@ namespace Company.Project.Web.Controllers
         }
 
         [Authorize]
-        // GET: EventController/Create done
+        // GET: EventController/Create
         public ActionResult Create()
         {
             return View();
         }
 
         [Authorize]
-        // POST: EventController/Create done
+        // POST: EventController/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
         public ActionResult Create(EventViewModel eventViewModel)
@@ -110,7 +116,7 @@ namespace Company.Project.Web.Controllers
         }
 
 
-        // GET: EventController/Edit/5
+        // GET: EventController/Edit/5/userId
         [Authorize]
         [Route("Event/Edit/{id:int}/{userId}")]
         public ActionResult Edit(int id, string userId)
@@ -136,7 +142,7 @@ namespace Company.Project.Web.Controllers
         }
 
 
-        // POST: EventController/Edit/5
+        // POST: EventController/Edit/5/userId
         [Authorize]
         [HttpPost]
         [ValidateAntiForgeryToken]

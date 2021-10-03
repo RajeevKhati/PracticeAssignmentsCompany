@@ -1,6 +1,7 @@
 ﻿using Company.Project.Core.WebMVC;
 using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.ComponentModel.DataAnnotations;
 using System.Linq;
 using System.Threading.Tasks;
@@ -9,7 +10,7 @@ namespace Company.Project.Web.Models
 {
     public class PersonViewModel : ViewModel
     {
-        
+        [DisplayName("Enter Full Name")]
         public string FullName { get; set; }
 
         [Required(ErrorMessage ="Please enter email")]

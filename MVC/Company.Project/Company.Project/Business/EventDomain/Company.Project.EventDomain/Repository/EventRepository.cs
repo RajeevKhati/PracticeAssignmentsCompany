@@ -21,8 +21,6 @@ namespace Company.Project.EventDomain.Repository
 
         public void EditEvent(Event oldEvent, Event newEvent)
         {
-            //var changeEvent = _context.Events.Attach(editThisEvent);
-            //changeEvent.State = EntityState.Modified;
             _context.Entry<Event>(oldEvent).CurrentValues.SetValues(newEvent);
         }
     }
