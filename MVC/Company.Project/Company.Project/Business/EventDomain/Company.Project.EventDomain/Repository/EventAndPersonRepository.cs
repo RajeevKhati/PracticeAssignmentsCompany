@@ -45,7 +45,6 @@ namespace Company.Project.EventDomain.Repository
                 list.Add(new EventAndPerson { EventID = eventId, PersonID = userId });
             }
             _context.EventsAndPeople.AddRange(list);
-            _context.SaveChanges();
         }
         
     }

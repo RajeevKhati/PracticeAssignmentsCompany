@@ -23,28 +23,19 @@ namespace Company.Project.EventDomain.AppServices
     {
 
         private IMapper _mapper;
-        private readonly IEventAndPersonRepository _eventAndPersonRepository;
-        private readonly IPersonRepository _personRepository;
+        private IEventUnitOfWork _eventUnitOfWork;
 
-        private IEventRepository _eventRepository;
-        private IAccountRepository _accountRepository;
-        private readonly ICommentRepository _commentRepository;
-
-        public EventAppService(IEventUnitOfWork unitOfWork, IEventRepository eventRepository, IMapper mapper, IExceptionManager exceptionManager, IEventAndPersonRepository eventAndPersonRepository, IPersonRepository personRepository, IAccountRepository accountRepository, ICommentRepository commentRepository) : base(unitOfWork, exceptionManager)
+        public EventAppService(IEventUnitOfWork eventUnitOfWork, IMapper mapper, IExceptionManager exceptionManager) : base(eventUnitOfWork, exceptionManager)
         {
             _mapper = mapper;
-            _eventAndPersonRepository = eventAndPersonRepository;
-            _personRepository = personRepository;
-            _eventRepository = eventRepository;
-            _accountRepository = accountRepository;
-            _commentRepository = commentRepository;
+            _eventUnitOfWork = eventUnitOfWork;
         }
 
         //for unit testing
-        public EventAppService(IEventRepository eventRepository, IMapper mapper, IEventAndPersonRepository eventAndPersonRepository, IAccountRepository accountRepository) 
-            : this(null, eventRepository, mapper, null, eventAndPersonRepository, null, accountRepository, null) 
-        {
-        }
+        //public EventAppService(IEventRepository eventRepository, IMapper mapper, IEventAndPersonRepository eventAndPersonRepository, IAccountRepository accountRepository) 
+        //    : this(null, eventRepository, mapper, null, eventAndPersonRepository, null, accountRepository, null) 
+        //{
+        //}
 
         //Create new event
         public OperationResult<EventDTO> CreateEvent(EventDTO eventDTO)
@@ -56,7 +47,7 @@ namespace Company.Project.EventDomain.AppServices
             
             ICollection<string> listOfIds = new List<string>();
             //This method will store person/user Ids of corresponding emails into listOfIds and will return true or false depending upon if the email provided is present in database or not.
-            bool isConversionValid = _accountRepository.FillListWithCorrespondingUserIds(emailsSet, listOfIds).Result;
+            bool isConversionValid = _eventUnitOfWork.Accounts.FillListWithCorrespondingUserIds(emailsSet, listOfIds).Result;
 
             if (!isConversionValid)
             {
@@ -73,12 +64,14 @@ namespace Company.Project.EventDomain.AppServices
 
             OperationResult result;
 
-            _eventRepository.Create(newEvent);
+            _eventUnitOfWork.Events.Create(newEvent);
 
-            result = UnitOfWork.Commit();
+            result = _eventUnitOfWork.Commit();
 
             //making a relationship between newly created event and the Ids of users which are invited.
-            _eventAndPersonRepository.CreateEventAndPersonRow(listOfIds, newEvent.Id);
+            _eventUnitOfWork.EventsAndPeople.CreateEventAndPersonRow(listOfIds, newEvent.Id);
+
+            result = _eventUnitOfWork.Commit();
 
             eventDTO.Id = newEvent.Id;
 
@@ -93,8 +86,8 @@ namespace Company.Project.EventDomain.AppServices
         /// </summary>
         public OperationResult<IEnumerable<EventDTO>> GetAllEvents()
         {
-            IEnumerable<Event> publicEventList = _eventRepository.Get(e => e.Type == false);
-            IEnumerable<Event> myPrivateEventList = _eventRepository.Get(e => e.Type).Where(e=> (e.UserID.Equals(GetUserId()) || GetUserId().Equals("8e445865-a24d-4543-a6c6-9443d048cdb9")));
+            IEnumerable<Event> publicEventList = _eventUnitOfWork.Events.Get(e => e.Type == false);
+            IEnumerable<Event> myPrivateEventList = _eventUnitOfWork.Events.Get(e => e.Type).Where(e=> (e.UserID.Equals(GetUserId()) || GetUserId().Equals("8e445865-a24d-4543-a6c6-9443d048cdb9")));
 
             var myListOfEvents = publicEventList.Concat(myPrivateEventList);
             IEnumerable<Event> eventList = myListOfEvents.OrderBy(e => e.Date).ToList<Event>();
@@ -108,7 +101,7 @@ namespace Company.Project.EventDomain.AppServices
         //Get only public events
         public OperationResult<IEnumerable<EventDTO>> GetOnlyPublicEvents()
         {
-            IEnumerable<Event> eventList = _eventRepository.Get(e => e.Type==false).OrderBy(e => e.Date).ToList<Event>();
+            IEnumerable<Event> eventList = _eventUnitOfWork.Events.Get(e => e.Type==false).OrderBy(e => e.Date).ToList<Event>();
             List<EventDTO> eventDTOList = new List<EventDTO>();
             eventDTOList = _mapper.Map<IEnumerable<Event>, List<EventDTO>>(eventList);
             Message message = new Message(string.Empty, "Return Successfully");
@@ -122,7 +115,7 @@ namespace Company.Project.EventDomain.AppServices
         public OperationResult<IEnumerable<EventDTO>> GetMyEvents()
         {
             string custId = GetUserId();
-            IEnumerable<Event> eventList = _eventRepository.Get(x => x.UserID.Equals(custId))
+            IEnumerable<Event> eventList = _eventUnitOfWork.Events.Get(x => x.UserID.Equals(custId))
                                                                .OrderBy(e => e.Date).ToList<Event>();
             List<EventDTO> eventDTOList = new List<EventDTO>();
             eventDTOList = _mapper.Map<IEnumerable<Event>, List<EventDTO>>(eventList);
@@ -134,7 +127,7 @@ namespace Company.Project.EventDomain.AppServices
         public OperationResult<IEnumerable<EventDTO>> GetEventsImInvitedTo()
         {
             string custId = GetUserId();
-            IEnumerable<Event> eventList = _eventAndPersonRepository.GetEventsAPersonIsInvitedTo(custId);
+            IEnumerable<Event> eventList = _eventUnitOfWork.EventsAndPeople.GetEventsAPersonIsInvitedTo(custId);
             List<EventDTO> eventDTOList = new List<EventDTO>();
             eventDTOList = _mapper.Map<IEnumerable<Event>, List<EventDTO>>(eventList);
             Message message = new Message(string.Empty, "Return Successfully");
@@ -144,7 +137,7 @@ namespace Company.Project.EventDomain.AppServices
         //Details
         public OperationResult<EventDTO> GetEventById(int eventId)
         {
-            Event eventById = _eventRepository.GetById(eventId);
+            Event eventById = _eventUnitOfWork.Events.GetById(eventId);
             if (eventById == null)
             {
                 Message message = new Message("104", $"No event found with given Id {eventId}");
@@ -163,7 +156,7 @@ namespace Company.Project.EventDomain.AppServices
         //count of people in a particular event
         public OperationResult<int> GetTotalPeopleInvited(int eventId)
         {
-            int countOfInvitedPeople = _eventAndPersonRepository.GetCountOfInvitedPeople(eventId);
+            int countOfInvitedPeople = _eventUnitOfWork.EventsAndPeople.GetCountOfInvitedPeople(eventId);
             Message message = new Message(string.Empty, "Return Successfully");
             return new OperationResult<int>(countOfInvitedPeople, true, message);
         }
@@ -173,9 +166,9 @@ namespace Company.Project.EventDomain.AppServices
         {
             Event newEvent = _mapper.Map<EventDTO, Event>(newEventDTO);
             newEvent.UserID = userId;
-            Event oldEvent = _eventRepository.Find(e => e.Id == newEvent.Id);
-            _eventRepository.EditEvent(oldEvent, newEvent);
-            OperationResult result = UnitOfWork.Commit();
+            Event oldEvent = _eventUnitOfWork.Events.Find(e => e.Id == newEvent.Id);
+            _eventUnitOfWork.Events.EditEvent(oldEvent, newEvent);
+            OperationResult result = _eventUnitOfWork.Commit();
             return new OperationResult<EventDTO>(newEventDTO, result.IsSuccess, result.MainMessage, result.AssociatedMessages.ToList<Message>());
         }
 
@@ -183,7 +176,7 @@ namespace Company.Project.EventDomain.AppServices
         public IdentityResult CreateUser(PersonDTO personDTO)
         {
             Person person = _mapper.Map<PersonDTO, Person>(personDTO);
-            var result = _accountRepository.CreateUserAsync(person).Result;
+            var result = _eventUnitOfWork.Accounts.CreateUserAsync(person).Result;
             return result;
         }
 
@@ -191,20 +184,20 @@ namespace Company.Project.EventDomain.AppServices
         public SignInResult PasswordSignIn(PersonDTO personDTO)
         {
             Person person = _mapper.Map<PersonDTO, Person>(personDTO);
-            var result = _accountRepository.PasswordSignInAsync(person).Result;
+            var result = _eventUnitOfWork.Accounts.PasswordSignInAsync(person).Result;
             return result;
         }
 
         //Logout user
         public void Logout()
         {
-            _accountRepository.SignOutAsync();
+            _eventUnitOfWork.Accounts.SignOutAsync();
         }
 
         //Get loggedin user id
         public string GetUserId()
         {
-            return _accountRepository.GetLoggedInUserId();
+            return _eventUnitOfWork.Accounts.GetLoggedInUserId();
         }
 
         //add comment
@@ -219,9 +212,9 @@ namespace Company.Project.EventDomain.AppServices
 
             OperationResult result;
 
-            _commentRepository.Create(newComment);
+            _eventUnitOfWork.Comments.Create(newComment);
 
-            result = UnitOfWork.Commit();
+            result = _eventUnitOfWork.Commit();
 
             commentDTO.Id = newComment.Id;
 
@@ -232,7 +225,7 @@ namespace Company.Project.EventDomain.AppServices
         //Get all comments
         public OperationResult<IEnumerable<CommentDTO>> GetAllComments(int eventId)
         {
-            IEnumerable<Comment> commentList = _commentRepository.Get(c => c.EventID == eventId).ToList<Comment>();
+            IEnumerable<Comment> commentList = _eventUnitOfWork.Comments.Get(c => c.EventID == eventId).ToList<Comment>();
             List<CommentDTO> commentDTOList = new List<CommentDTO>();
             commentDTOList = _mapper.Map<IEnumerable<Comment>, List<CommentDTO>>(commentList);
             Message message = new Message(string.Empty, "Return Successfully");
@@ -242,13 +235,13 @@ namespace Company.Project.EventDomain.AppServices
         //Get all email ids invited to a particular event
         public string GetCommaSeparatedEmails(int eventId)
         {
-            IEnumerable<string> allUserIds = _eventAndPersonRepository.Get(e => e.EventID == eventId).Select(e => e.PersonID);
+            IEnumerable<string> allUserIds = _eventUnitOfWork.EventsAndPeople.Get(e => e.EventID == eventId).Select(e => e.PersonID);
 
             IList<string> allEmailIds = new List<string>();
 
             foreach(var userId in allUserIds)
             {
-                allEmailIds.Add(_personRepository.GetEmailId(userId));
+                allEmailIds.Add(_eventUnitOfWork.People.GetEmailId(userId));
             }
 
             StringBuilder commaSeparatedEmails = new StringBuilder();
@@ -266,7 +259,7 @@ namespace Company.Project.EventDomain.AppServices
         //checking if given user id is valid
         public OperationResult<bool> IsUserValid(string userId)
         {
-            bool isUserValid = _accountRepository.IsUserPresentInDatabase(userId);
+            bool isUserValid = _eventUnitOfWork.Accounts.IsUserPresentInDatabase(userId);
             if (isUserValid)
             {
                 return new OperationResult<bool>(true, true, new Message("", "success"));
