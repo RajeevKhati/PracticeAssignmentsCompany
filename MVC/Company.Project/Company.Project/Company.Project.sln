@@ -49,6 +49,10 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Company.Project.EventDomain
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "Company.Project.Tests", "Services\Company.Project.Tests\Company.Project.Tests.csproj", "{4C1B38D6-B9E1-40F2-9F06-B03E0A8C920C}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "EventFacade", "EventFacade", "{A1B4B87A-6134-4DE1-A74C-C2C194E45829}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Company.Project.EventFacade", "Business\EventFacade\Company.Project.EventFacade\Company.Project.EventFacade.csproj", "{1917DD71-B023-4F61-9A7A-8D8E7D0AE1A2}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -91,6 +95,10 @@ Global
 		{4C1B38D6-B9E1-40F2-9F06-B03E0A8C920C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4C1B38D6-B9E1-40F2-9F06-B03E0A8C920C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4C1B38D6-B9E1-40F2-9F06-B03E0A8C920C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{1917DD71-B023-4F61-9A7A-8D8E7D0AE1A2}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{1917DD71-B023-4F61-9A7A-8D8E7D0AE1A2}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{1917DD71-B023-4F61-9A7A-8D8E7D0AE1A2}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{1917DD71-B023-4F61-9A7A-8D8E7D0AE1A2}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -106,6 +114,8 @@ Global
 		{EBA24D29-C4BE-481A-9980-71BDD5827182} = {3832AEC4-C870-4818-926F-D5519DBD601E}
 		{443E791B-2538-4C52-9E18-3F788E6EEE12} = {EBA24D29-C4BE-481A-9980-71BDD5827182}
 		{4C1B38D6-B9E1-40F2-9F06-B03E0A8C920C} = {F9D8121F-5DD7-4EDB-A286-DE3E42DA6AE4}
+		{A1B4B87A-6134-4DE1-A74C-C2C194E45829} = {3832AEC4-C870-4818-926F-D5519DBD601E}
+		{1917DD71-B023-4F61-9A7A-8D8E7D0AE1A2} = {A1B4B87A-6134-4DE1-A74C-C2C194E45829}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {623EB316-DD75-4F24-BE1F-7B9C303071FB}

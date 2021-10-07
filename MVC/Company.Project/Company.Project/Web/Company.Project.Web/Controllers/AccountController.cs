@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
+using Company.Project.Core.WebMVC;
 using Company.Project.EventDomain.AppServices;
 using Company.Project.EventDomain.AppServices.DTOs;
+using Company.Project.EventFacade.FacadeFactory;
+using Company.Project.EventFacade.FacadeLayer;
 using Company.Project.Web.Models;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.Extensions.Logging;
@@ -11,17 +14,18 @@ using System.Threading.Tasks;
 
 namespace Company.Project.Web.Controllers
 {
-    public class AccountController : Controller
+    public class AccountController : BaseController
     {
         private readonly ILogger<AccountController> _logger;
-        private readonly IEventAppService _eventAppService;
         private readonly IMapper _mapper;
 
-        public AccountController(ILogger<AccountController> logger, IEventAppService eventAppService, IMapper mapper)
+        private IEventFacade _eventFacade;
+
+        public AccountController(ILogger<AccountController> logger, IMapper mapper, IEventFacadeFactory facadeFactory)
         {
             _logger = logger;
-            _eventAppService = eventAppService;
             _mapper = mapper;
+            _eventFacade = facadeFactory.Create();
         }
         public IActionResult SignUp()
         {
@@ -37,7 +41,7 @@ namespace Company.Project.Web.Controllers
                 return View(personViewModel);
             }
             var personDTO = _mapper.Map<PersonViewModel, PersonDTO>(personViewModel);
-            var result = _eventAppService.CreateUser(personDTO);
+            var result = _eventFacade.CreateUser(personDTO);
             if (ModelState.IsValid)
             {
                 if (!result.Succeeded)
@@ -66,7 +70,7 @@ namespace Company.Project.Web.Controllers
             if (ModelState.IsValid)
             {
                 var personDTO = _mapper.Map<PersonViewModel, PersonDTO>(personViewModel);
-                var result = _eventAppService.PasswordSignIn(personDTO);
+                var result = _eventFacade.PasswordSignIn(personDTO);
                 if (result.Succeeded)
                 {
                     return RedirectToAction("Index", "Home");
@@ -79,7 +83,7 @@ namespace Company.Project.Web.Controllers
 
         public IActionResult Logout()
         {
-            _eventAppService.Logout();
+            _eventFacade.Logout();
             return RedirectToAction("Index", "Home");
         }
 

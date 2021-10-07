@@ -9,37 +9,29 @@ using Company.Project.Web.Models;
 using Company.Project.EventDomain.AppServices;
 using AutoMapper;
 using Company.Project.EventDomain.AppServices.DTOs;
+using Company.Project.Core.WebMVC;
+using Company.Project.EventFacade.FacadeFactory;
+using Company.Project.EventFacade.FacadeLayer;
 
 namespace Company.Project.Web.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly ILogger<HomeController> _logger;
-        private readonly IEventAppService _eventAppService;
         private readonly IMapper _mapper;
 
-        public HomeController(ILogger<HomeController> logger, IEventAppService eventAppService, IMapper mapper)
+        private IEventFacade _eventFacade;
+
+        public HomeController(ILogger<HomeController> logger, IMapper mapper, IEventFacadeFactory facadeFactory)
         {
             _logger = logger;
-            _eventAppService = eventAppService;
             _mapper = mapper;
+            _eventFacade = facadeFactory.Create();
         }
 
         public IActionResult Index()
         {
-            //Getting current logged in user id, if it comes out to be null which means no user is logged in.
-            var id = _eventAppService.GetUserId();
-            dynamic operationResult;
-            if (string.IsNullOrEmpty(id))
-            {
-                //if user not logged in
-                operationResult = _eventAppService.GetOnlyPublicEvents();
-            }
-            else
-            {
-                //if user logged in.
-                operationResult = _eventAppService.GetAllEvents();
-            }
+            var operationResult = _eventFacade.GetAllEvents();
 
             var events = operationResult.Data;
             var eventViewModel = _mapper.Map<IEnumerable<EventDTO>,IEnumerable<EventViewModel>>(events);

@@ -1,6 +1,9 @@
 ﻿using AutoMapper;
+using Company.Project.Core.WebMVC;
 using Company.Project.EventDomain.AppServices;
 using Company.Project.EventDomain.AppServices.DTOs;
+using Company.Project.EventFacade.FacadeFactory;
+using Company.Project.EventFacade.FacadeLayer;
 using Company.Project.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -18,25 +21,27 @@ namespace Company.Project.Web.Controllers
     /// This controller uses eventAppService to get, set, modify data.
     /// eventAppService returns OperationResult, and its Data property has real data which we require.
     /// </summary>
-    public class EventController : Controller
+    public class EventController : BaseController
     {
 
         private readonly ILogger<EventController> _logger;
-        private readonly IEventAppService _eventAppService;
         private readonly IMapper _mapper;
 
-        public EventController(ILogger<EventController> logger, IEventAppService eventAppService, IMapper mapper)
+        private IEventFacade _eventFacade;
+
+        public EventController(ILogger<EventController> logger, IMapper mapper, IEventFacadeFactory facadeFactory)
         {
             _logger = logger;
-            _eventAppService = eventAppService;
             _mapper = mapper;
+            _eventFacade = facadeFactory.Create();
+
         }
 
         [Authorize]
         // My events
         public ActionResult MyEvents()
         {
-            var operationResult = _eventAppService.GetMyEvents();
+            var operationResult = _eventFacade.GetMyEvents();
             IEnumerable<EventDTO> myEventsDTO = operationResult.Data;
             IEnumerable<EventViewModel> myEventsViewModel = _mapper.Map<IEnumerable<EventDTO>, IEnumerable<EventViewModel>>(myEventsDTO);
             return View(myEventsViewModel);
@@ -46,7 +51,7 @@ namespace Company.Project.Web.Controllers
         //events invited to
         public ActionResult EventsInvitedTo()
         {
-            var operationResult = _eventAppService.GetEventsImInvitedTo();
+            var operationResult = _eventFacade.GetEventsImInvitedTo();
             IEnumerable<EventDTO> eventsInvitedToDTO = operationResult.Data;
             IEnumerable<EventViewModel> eventsInvitedToViewModel = _mapper.Map<IEnumerable<EventDTO>, IEnumerable<EventViewModel>>(eventsInvitedToDTO);
             return View(eventsInvitedToViewModel);
@@ -57,11 +62,11 @@ namespace Company.Project.Web.Controllers
         [Route("Event/Details/{eventId:int}")]
         public ActionResult Details(int eventId)
         {
-            var operationResult = _eventAppService.GetEventById(eventId);
+            var operationResult = _eventFacade.GetEventById(eventId);
             if (!operationResult.IsSuccess)
             {
                 ErrorViewModel errorView = new ErrorViewModel();
-                //104 means no event exist with corresponding eventId
+                //104 error means no event exist with corresponding eventId
                 if (operationResult.MainMessage.Code.Equals("104"))
                 {
                     _logger.LogError(operationResult.MainMessage.Text);
@@ -77,7 +82,7 @@ namespace Company.Project.Web.Controllers
             }
             EventDTO eventDTO = operationResult.Data;
             EventViewModel eventViewModel = _mapper.Map<EventDTO, EventViewModel>(eventDTO);
-            ViewBag.count = _eventAppService.GetTotalPeopleInvited(eventId).Data;
+            ViewBag.count = _eventFacade.GetTotalPeopleInvited(eventId).Data;
             return View(eventViewModel);
         }
 
@@ -97,7 +102,7 @@ namespace Company.Project.Web.Controllers
             if (ModelState.IsValid)
             {
                 var eventDTO = _mapper.Map<EventViewModel, EventDTO>(eventViewModel);
-                var operationResult = _eventAppService.CreateEvent(eventDTO);
+                var operationResult = _eventFacade.CreateEvent(eventDTO);
                 if (operationResult.IsSuccess)
                 {
                     _logger.LogInformation($"A new event is created by user with Id {eventDTO.Id}");
@@ -123,7 +128,7 @@ namespace Company.Project.Web.Controllers
         {
             //Handle if user tries to manipulate eventid inside url
 
-            var operationResult = _eventAppService.GetEventById(id);
+            var operationResult = _eventFacade.GetEventById(id);
             if (!operationResult.IsSuccess)
             {
                 ErrorViewModel errorView = new ErrorViewModel();
@@ -134,7 +139,7 @@ namespace Company.Project.Web.Controllers
 
             EventDTO eventDTO = operationResult.Data;
             EventViewModel eventViewModel = _mapper.Map<EventDTO, EventViewModel>(eventDTO);
-            string commaSeparatedEmails = _eventAppService.GetCommaSeparatedEmails(id);
+            string commaSeparatedEmails = _eventFacade.GetCommaSeparatedEmails(id);
             eventViewModel.InviteByEmail = commaSeparatedEmails;
             ViewBag.userId = userId;
             ViewBag.disabled = false;
@@ -152,11 +157,11 @@ namespace Company.Project.Web.Controllers
             if (ModelState.IsValid)
             {
                 EventDTO eventDTO = _mapper.Map<EventViewModel, EventDTO>(eventViewModel);
-                var operationResult = _eventAppService.EditEvent(eventDTO, userId);
+                var operationResult = _eventFacade.EditEvent(eventDTO, userId);
                 int id = operationResult.Data.Id;
                 return this.RedirectToAction("Details", new { eventId = id });
             }
-            string commaSeparatedEmails = _eventAppService.GetCommaSeparatedEmails(eventViewModel.Id);
+            string commaSeparatedEmails = _eventFacade.GetCommaSeparatedEmails(eventViewModel.Id);
             eventViewModel.InviteByEmail = commaSeparatedEmails;
             ViewBag.userId = userId;
             ViewBag.disabled = true;
@@ -176,7 +181,7 @@ namespace Company.Project.Web.Controllers
         public ActionResult AddComment(CommentViewModel commentViewModel, int eventId)
         {
             CommentDTO commentDTO = _mapper.Map<CommentViewModel, CommentDTO>(commentViewModel);
-            var commentResult = _eventAppService.AddComment(commentDTO, eventId);
+            var commentResult = _eventFacade.AddComment(commentDTO, eventId);
             if (!commentResult.IsSuccess)
             {
                 ModelState.AddModelError("", commentResult.MainMessage.Text);

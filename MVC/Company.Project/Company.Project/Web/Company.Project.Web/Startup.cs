@@ -9,6 +9,7 @@ using Company.Project.EventDomain.AppServices.Mapper;
 using Company.Project.EventDomain.Configuration;
 using Company.Project.EventDomain.Data.DBContext;
 using Company.Project.EventDomain.Domain;
+using Company.Project.EventFacade.FacadeFactory;
 using Company.Project.Web.Mapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -52,6 +53,7 @@ namespace Company.Project.Web
             services.RegisterRepositories();
             services.AddScoped<IMapper>(sp => _mapperConfiguration.CreateMapper());
             services.AddScoped<IEventAppService, EventAppService>();
+            services.AddScoped<IEventFacadeFactory, EventFacadeFactory>();
             services.AddScoped<IExceptionManager, ExceptionManager>();
             services.AddScoped<Company.Project.Core.Logging.ILogger, Company.Project.Loggig.NLog.Logger>();
             services.AddDbContext<EventDomainDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
