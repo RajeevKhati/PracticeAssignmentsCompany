@@ -47,7 +47,7 @@ namespace Company.Project.Web
         public void ConfigureServices(IServiceCollection services)
         {
             services.AddControllersWithViews();
-            Company.Project.Core.Logging.ILogger logger = new Company.Project.Loggig.NLog.Logger();
+            Company.Project.Core.Logging.ILogger logger = Company.Project.Loggig.NLog.Logger.GetLoggerInstance;
             exceptionManager = new ExceptionManager(logger);
           
             services.RegisterRepositories();
@@ -55,11 +55,11 @@ namespace Company.Project.Web
             services.AddScoped<IEventAppService, EventAppService>();
             services.AddScoped<IEventFacadeFactory, EventFacadeFactory>();
             services.AddScoped<IExceptionManager, ExceptionManager>();
-            services.AddScoped<Company.Project.Core.Logging.ILogger, Company.Project.Loggig.NLog.Logger>();
+            //services.AddSingleton<Company.Project.Core.Logging.ILogger, Company.Project.Loggig.NLog.Logger>();
+            services.AddSingleton<Company.Project.Core.Logging.ILogger>(Company.Project.Loggig.NLog.Logger.GetLoggerInstance);
             services.AddDbContext<EventDomainDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<EventDomainDbContext>();
-
 
         }
 

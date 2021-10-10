@@ -88,5 +88,10 @@ namespace Company.Project.EventFacade
         {
             _eventAppService.Logout();
         }
+
+        public OperationResult<IEnumerable<CommentDTO>> GetAllComments(int eventId)
+        {
+            return _eventAppService.GetAllComments(eventId);
+        }
     }
 }

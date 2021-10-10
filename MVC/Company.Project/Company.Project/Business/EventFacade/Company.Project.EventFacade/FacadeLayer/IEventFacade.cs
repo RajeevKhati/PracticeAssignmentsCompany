@@ -21,5 +21,6 @@ namespace Company.Project.EventFacade.FacadeLayer
         IdentityResult CreateUser(PersonDTO personDTO);
         SignInResult PasswordSignIn(PersonDTO personDTO);
         void Logout();
+        OperationResult<IEnumerable<CommentDTO>> GetAllComments(int eventId);
     }
 }

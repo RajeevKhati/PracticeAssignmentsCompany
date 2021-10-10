@@ -4,13 +4,25 @@ using NLog;
 
 namespace Company.Project.Loggig.NLog
 {
-    public class Logger : LoggerBase
+    public sealed class Logger : LoggerBase
     {
         #region Private variables
         /// <summary>
         /// The _logger
         /// </summary>
-        private readonly global::NLog.Logger _logger;
+        private static global::NLog.Logger _logger;
+        private static Logger _MyLogger = null;
+        public static Logger GetLoggerInstance
+        {
+            get
+            {
+                if (_MyLogger == null)
+                {
+                    _MyLogger = new Logger();
+                }
+                return _MyLogger;
+            }
+        }
 
         /// <summary>
         /// Gets the name.
@@ -26,7 +38,7 @@ namespace Company.Project.Loggig.NLog
         /// <summary>
         /// Initializes a new instance of the class.
         /// </summary>
-        public Logger()
+        private Logger()
         {
             _logger = LogManager.GetCurrentClassLogger();
 
