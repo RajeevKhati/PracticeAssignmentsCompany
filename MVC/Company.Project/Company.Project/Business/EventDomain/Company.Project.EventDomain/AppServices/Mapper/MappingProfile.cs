@@ -18,6 +18,7 @@ namespace Company.Project.EventDomain.AppServices.Mapper
             CreateMap<PersonDTO, Person>().ReverseMap();
             CreateMap<EventAndPersonDTO, EventAndPerson>().ReverseMap();
             CreateMap<CommentDTO, Comment>().ReverseMap();
+            CreateMap<CommentNotificationDTO, CommentNotification>().ReverseMap();
         }
     }
 }

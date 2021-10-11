@@ -2,18 +2,21 @@
 using Company.Project.EventDomain.AppServices;
 using Company.Project.EventDomain.AppServices.DTOs;
 using Company.Project.EventFacade.FacadeLayer;
+using Company.Project.EventFacade.Subject;
 using Microsoft.AspNetCore.Identity;
 using System;
 using System.Collections.Generic;
 
 namespace Company.Project.EventFacade
 {
-    public class EventFacade : IEventFacade
+    public class EventFacade : IEventFacade, ICommentNotificationObserver
     {
         private IEventAppService _eventAppService;
-        public EventFacade(IEventAppService eventAppService)
+
+        public EventFacade(IEventAppService eventAppService, ICommentNotificationSubject commentNotification)
         {
             _eventAppService = eventAppService;
+            commentNotification.AddObserver(this);
         }
 
         public OperationResult<IEnumerable<EventDTO>> GetAllEvents()
@@ -92,6 +95,28 @@ namespace Company.Project.EventFacade
         public OperationResult<IEnumerable<CommentDTO>> GetAllComments(int eventId)
         {
             return _eventAppService.GetAllComments(eventId);
+        }
+
+        public void Notify(CommentNotificationDTO commentNotificationDTO)
+        {
+            var eventDTO = _eventAppService.GetEventById(commentNotificationDTO.EventId).Data;
+            var eventOwnerId = eventDTO.UserID;
+            var currentUserLoggedInId = _eventAppService.GetUserId();
+            var currentLoggedInUserFullName = _eventAppService.GetUserFullName(currentUserLoggedInId);
+            commentNotificationDTO.EventOwnerId = eventOwnerId;
+            commentNotificationDTO.NameOfPersonWhoCommented = currentLoggedInUserFullName;
+            var result = _eventAppService.AddCommentNotification(commentNotificationDTO);
+        }
+
+        public OperationResult<IEnumerable<CommentNotificationDTO>> GetNotificationsOfCurrentLoggedInUser()
+        {
+            return _eventAppService.GetNotificationsOfCurrentLoggedInUser();
+        }
+
+        public string GetEventName(int eventId)
+        {
+            var eventDTO = _eventAppService.GetEventById(eventId).Data;
+            return eventDTO.TitleOfBook;
         }
     }
 }

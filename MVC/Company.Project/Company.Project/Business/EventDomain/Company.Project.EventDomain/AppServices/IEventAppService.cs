@@ -26,5 +26,8 @@ namespace Company.Project.EventDomain.AppServices
         OperationResult<IEnumerable<EventDTO>> GetOnlyPublicEvents();//
         string GetCommaSeparatedEmails(int eventId);
         OperationResult<bool> IsUserValid(string userId);
+        string GetUserFullName(string userId);
+        OperationResult<CommentNotificationDTO> AddCommentNotification(CommentNotificationDTO commentNotificationDTO);
+        OperationResult<IEnumerable<CommentNotificationDTO>> GetNotificationsOfCurrentLoggedInUser();
     }
 }

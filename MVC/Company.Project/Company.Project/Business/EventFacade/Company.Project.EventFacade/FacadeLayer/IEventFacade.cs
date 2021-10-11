@@ -22,5 +22,7 @@ namespace Company.Project.EventFacade.FacadeLayer
         SignInResult PasswordSignIn(PersonDTO personDTO);
         void Logout();
         OperationResult<IEnumerable<CommentDTO>> GetAllComments(int eventId);
+        OperationResult<IEnumerable<CommentNotificationDTO>> GetNotificationsOfCurrentLoggedInUser();
+        string GetEventName(int eventId);
     }
 }

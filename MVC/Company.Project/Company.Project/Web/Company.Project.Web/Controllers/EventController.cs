@@ -4,6 +4,7 @@ using Company.Project.EventDomain.AppServices;
 using Company.Project.EventDomain.AppServices.DTOs;
 using Company.Project.EventFacade.FacadeFactory;
 using Company.Project.EventFacade.FacadeLayer;
+using Company.Project.EventFacade.Subject;
 using Company.Project.Web.Models;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
@@ -26,13 +27,14 @@ namespace Company.Project.Web.Controllers
 
         private readonly ILogger<EventController> _logger;
         private readonly IMapper _mapper;
-
+        private readonly ICommentNotificationSubject _commentNotification;
         private IEventFacade _eventFacade;
 
-        public EventController(ILogger<EventController> logger, IMapper mapper, IEventFacadeFactory facadeFactory)
+        public EventController(ILogger<EventController> logger, IMapper mapper, IEventFacadeFactory facadeFactory, ICommentNotificationSubject commentNotification)
         {
             _logger = logger;
             _mapper = mapper;
+            _commentNotification = commentNotification;
             _eventFacade = facadeFactory.Create();
 
         }
@@ -193,6 +195,16 @@ namespace Company.Project.Web.Controllers
                 }
                 return View(commentViewModel);
             }
+
+            CommentNotificationViewModel commentNotificationViewModel = new CommentNotificationViewModel
+            {
+                CommentContent = commentDTO.Content,
+                EventId = eventId
+            };
+
+            CommentNotificationDTO commentNotificationDTO = _mapper.Map<CommentNotificationViewModel, CommentNotificationDTO>(commentNotificationViewModel);
+
+            _commentNotification.NotifyObserver(commentNotificationDTO);
 
             _logger.LogInformation($"A new comment added inside event where event's Id is {eventId}");
             return this.RedirectToAction("Details", new { eventId = eventId });

@@ -16,6 +16,7 @@ namespace Company.Project.Web.Mapper
             CreateMap<EventViewModel, EventDTO>().ReverseMap();
             CreateMap<PersonViewModel, PersonDTO>().ReverseMap();
             CreateMap<CommentViewModel, CommentDTO>().ReverseMap();
+            CreateMap<CommentNotificationViewModel, CommentNotificationDTO>().ReverseMap();
         }
     }
 }

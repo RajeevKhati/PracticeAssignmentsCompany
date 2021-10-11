@@ -13,5 +13,6 @@ namespace Company.Project.EventDomain.UoW
         public IAccountRepository Accounts { get; }
         public ICommentRepository Comments { get; }
         public IPersonRepository People { get; }
+        public ICommentNotificationRepository CommentNotifications { get; }
     }
 }

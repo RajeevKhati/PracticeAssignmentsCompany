@@ -82,6 +82,11 @@ namespace Company.Project.EventDomain.Repository
             }
         }
 
+        public string GetUserFullName(string userId)
+        {
+            return _userManager.FindByIdAsync(userId).Result.FullName;
+        }
+
 
     }
 }

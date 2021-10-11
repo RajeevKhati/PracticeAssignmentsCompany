@@ -25,6 +25,7 @@ namespace Company.Project.EventDomain.Configuration
             service.AddScoped<IEventAndPersonRepository, EventAndPersonRepository>();
             service.AddScoped<ICommentRepository, CommentRepository>();
             service.AddScoped<IAccountRepository, AccountRepository>();
+            service.AddScoped<ICommentNotificationRepository, CommentNotificationRepository>();
             service.AddScoped<IEventUnitOfWork, EventUnitOfWork>();
             
         }

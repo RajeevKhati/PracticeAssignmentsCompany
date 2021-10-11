@@ -1,0 +1,21 @@
+﻿@model IEnumerable<CommentNotificationViewModel>
+
+<div class="dropdown">
+    <button class="btn btn-secondary dropdown-toggle" type="button" id="dropdownMenu2" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+        Notifications <span class="badge badge-light">@Model.Count()</span>
+    </button>
+    <div class="dropdown-menu" aria-labelledby="dropdownMenu2">
+        <h6 class="dropdown-header">Comment Notifications</h6>
+
+        @foreach (var commentNotification in Model)
+        {
+            <a asp-controller="Event" asp-action="Details" asp-route-eventId="@commentNotification.EventId" class="list-group-item list-group-item-action">
+                <div class="d-flex w-100 justify-content-between">
+                    <h5 class="mb-1">@commentNotification.EventName.ToString()</h5>
+                </div>
+                <p class="mb-1">@commentNotification.CommentContent</p>
+                <small>Made by @commentNotification.NameOfPersonWhoCommented</small>
+            </a>
+        }
+    </div>
+</div>

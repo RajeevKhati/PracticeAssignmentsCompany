@@ -20,6 +20,7 @@ namespace Company.Project.EventDomain.UoW
         public IAccountRepository Accounts { get; private set; }
         public ICommentRepository Comments { get; private set; }
         public IPersonRepository People { get; private set; }
+        public ICommentNotificationRepository CommentNotifications { get; private set; }
 
         /// <summary>
         /// Initializes a new instance of the <see cref="MyProjectUnitOfWork"/> class.
@@ -36,7 +37,7 @@ namespace Company.Project.EventDomain.UoW
             Accounts = _serviceProvider.GetService<IAccountRepository>();
             Comments = _serviceProvider.GetService<ICommentRepository>();
             People = _serviceProvider.GetService<IPersonRepository>();
-
+            CommentNotifications = _serviceProvider.GetService<ICommentNotificationRepository>();
         }
     }
 }

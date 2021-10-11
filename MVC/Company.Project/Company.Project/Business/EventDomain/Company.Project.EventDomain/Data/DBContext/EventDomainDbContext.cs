@@ -18,6 +18,7 @@ namespace Company.Project.EventDomain.Data.DBContext
         public DbSet<EventAndPerson> EventsAndPeople { get; set; }
 
         public DbSet<Comment> Comments { get; set; }
+        public DbSet<CommentNotification> CommentNotifications { get; set; }
 
         public EventDomainDbContext(DbContextOptions options) : base(options)
         {

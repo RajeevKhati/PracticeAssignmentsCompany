@@ -10,6 +10,7 @@ using Company.Project.EventDomain.Configuration;
 using Company.Project.EventDomain.Data.DBContext;
 using Company.Project.EventDomain.Domain;
 using Company.Project.EventFacade.FacadeFactory;
+using Company.Project.EventFacade.Subject;
 using Company.Project.Web.Mapper;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
@@ -60,6 +61,8 @@ namespace Company.Project.Web
             services.AddDbContext<EventDomainDbContext>(options => options.UseSqlServer(Configuration.GetConnectionString("DefaultConnection")));
             services.AddIdentity<ApplicationUser, IdentityRole>()
                 .AddEntityFrameworkStores<EventDomainDbContext>();
+
+            services.AddScoped<ICommentNotificationSubject, CommentNotificationSubject>();
 
         }
 

@@ -271,5 +271,43 @@ namespace Company.Project.EventDomain.AppServices
             }
         }
 
+        public string GetUserFullName(string userId)
+        {
+            return _eventUnitOfWork.Accounts.GetUserFullName(userId);
+        }
+
+        //add comment notification
+        public OperationResult<CommentNotificationDTO> AddCommentNotification(CommentNotificationDTO commentNotificationDTO)
+        {
+
+            CommentNotification newCommentNotification = _mapper.Map<CommentNotificationDTO, CommentNotification>(commentNotificationDTO);
+            newCommentNotification.IsActive = true;
+
+            newCommentNotification.CreatedOnDate = DateTimeOffset.Now;
+
+            OperationResult result;
+
+            _eventUnitOfWork.CommentNotifications.Create(newCommentNotification);
+
+            result = _eventUnitOfWork.Commit();
+
+            commentNotificationDTO.Id = newCommentNotification.Id;
+
+            //Prepare the response
+            return new OperationResult<CommentNotificationDTO>(commentNotificationDTO, result.IsSuccess, result.MainMessage, result.AssociatedMessages.ToList<Message>());
+        }
+
+        //Get notifications of current logged in user
+        public OperationResult<IEnumerable<CommentNotificationDTO>> GetNotificationsOfCurrentLoggedInUser()
+        {
+            var loggedInUserId = GetUserId();
+            IEnumerable<CommentNotification> commentNotificationList = _eventUnitOfWork.CommentNotifications.GetNotificationsOfUser(loggedInUserId);
+            List<CommentNotificationDTO> commentNotificationDTOList = new List<CommentNotificationDTO>();
+            commentNotificationDTOList = _mapper.Map<IEnumerable<CommentNotification>, List<CommentNotificationDTO>>(commentNotificationList);
+            Message message = new Message(string.Empty, "Return Successfully");
+            return new OperationResult<IEnumerable<CommentNotificationDTO>>(commentNotificationDTOList, true, message);
+        }
+
+
     }
 }

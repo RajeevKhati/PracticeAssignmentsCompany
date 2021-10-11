@@ -16,5 +16,6 @@ namespace Company.Project.EventDomain.Repository
         Task<bool> FillListWithCorrespondingUserIds(ICollection<string> emailSet, ICollection<string> userIdList);
 
         bool IsUserPresentInDatabase(string userId);
+        string GetUserFullName(string userId);
     }
 }
