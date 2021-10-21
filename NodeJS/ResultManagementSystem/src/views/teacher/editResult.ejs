@@ -1,0 +1,38 @@
+<%- include('../partials/header') %>
+
+<%- include('../partials/backButton') %>
+
+<%- include('../partials/flashErrorMessage') %>
+
+<div class="container mt-5">
+    <p class="h4 mb-4">Edit Result</p>
+    <form action="/teacher/results/<%=result.id%>?_method=PUT" method="POST">
+        <div class="row mb-3">
+            <label for="rollNumber" class="col-sm-2 col-form-label">Roll Number</label>
+            <div class="col-sm-5">
+                <input type="number" class="form-control" id="rollNumber" name="rollNumber" value="<%=result.rollNumber%>" required>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="name" class="col-sm-2 col-form-label">Name</label>
+            <div class="col-sm-5">
+                <input type="text" class="form-control" id="name" name="name" value="<%=result.name%>" required>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="dateOfBirth" class="col-sm-2 col-form-label">Date Of Birth</label>
+            <div class="col-sm-5">
+                <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" value="<%=result.dateOfBirth%>" required>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="score" class="col-sm-2 col-form-label">Score</label>
+            <div class="col-sm-5">
+                <input type="text" class="form-control" id="score" name="score" value="<%=result.score%>" required>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Submit</button>
+    </form>
+</div>
+
+<%- include('../partials/footer') %>

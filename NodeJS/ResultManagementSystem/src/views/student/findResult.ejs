@@ -1,0 +1,25 @@
+<%- include('../partials/header') %>
+
+<%- include('../partials/flashErrorMessage') %>
+
+<div class="container mt-5">
+    <p class="h4 mb-4">Find Result</p>
+    <form method="POST" action="/student/results/find">
+        <div class="row mb-3">
+            <label for="rollNumber" class="col-sm-2 col-form-label">Roll Number</label>
+            <div class="col-sm-5">
+                <input type="number" class="form-control" id="rollNumber" name="rollNumber" required>
+            </div>
+        </div>
+        <div class="row mb-3">
+            <label for="dateOfBirth" class="col-sm-2 col-form-label">Date Of Birth</label>
+            <div class="col-sm-5">
+                <input type="date" class="form-control" id="dateOfBirth" name="dateOfBirth" required>
+            </div>
+        </div>
+        <button type="submit" class="btn btn-primary">Search</button>
+        <button type="reset" class="btn btn-primary">Clear</button>
+    </form>
+</div>
+
+<%- include('../partials/footer') %>

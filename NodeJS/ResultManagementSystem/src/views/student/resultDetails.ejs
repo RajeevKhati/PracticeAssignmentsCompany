@@ -1,0 +1,29 @@
+<%- include('../partials/header') %>
+
+<%- include('../partials/backButton') %>
+
+<div class="card shadow-lg bg-body rounded mx-auto mt-5">
+  <div class="card-header text-center h5">
+    RESULT
+  </div>
+  <div class="card-body">
+    <div class="container">
+      <div class="row justify-content-center">
+        <div class="col-4">
+          <p class="card-text d-flex flex-row-reverse"><strong>Roll Number:</strong></p>
+          <p class="card-text d-flex flex-row-reverse"><strong>Name:</strong></p>
+          <p class="card-text d-flex flex-row-reverse"><strong>Date Of Birth:</strong></p>
+          <p class="card-text d-flex flex-row-reverse"><strong>Score:</strong></p>
+        </div>
+        <div class="col-4">
+          <p class="card-text"><%=result.rollNumber%></p>
+          <p class="card-text"><%=result.name%></p>
+          <p class="card-text"><%=result.dateOfBirth%></p>
+          <p class="card-text"><%=result.score%></p>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<%- include('../partials/footer') %>
