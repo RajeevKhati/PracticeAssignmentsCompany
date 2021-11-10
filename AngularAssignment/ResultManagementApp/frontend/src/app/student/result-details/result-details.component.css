@@ -1,0 +1,28 @@
+.example-card {
+  margin: 3rem auto;
+  max-width: 400px;
+  text-align: center;
+  background-color: #dae9ff;
+}
+
+mat-card-content {
+  margin: 1rem;
+}
+
+
+.backButton{
+  margin-left: 2rem;
+  margin-top: 1rem;
+  background-color: dimgrey;
+}
+
+.right-align{
+  width: 100%;
+  text-align: right;
+}
+
+.left-align{
+  width: 100%;
+  text-align: left;
+  padding-left: 1rem;
+}

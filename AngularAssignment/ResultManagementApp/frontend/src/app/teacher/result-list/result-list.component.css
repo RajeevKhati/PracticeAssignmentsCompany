@@ -1,0 +1,44 @@
+.container{
+  width: 85%;
+  margin: 1rem auto;
+}
+
+table {
+  width: 100%;
+  text-align: center;
+}
+
+th.mat-header-cell {
+  text-align: center;
+}
+
+.row{
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: 1rem 0px;
+}
+
+button{
+  height: 100%;
+}
+
+.mat-headline{
+  margin:0px;
+}
+
+.mat-icon-button{
+  margin: 0px 5%;
+}
+
+.colorButton{
+  background-color:#75e758;
+}
+
+mat-form-field {
+  width: 40%;
+}
+
+.mat-elevation-z8{
+  margin-bottom: 50%;
+}

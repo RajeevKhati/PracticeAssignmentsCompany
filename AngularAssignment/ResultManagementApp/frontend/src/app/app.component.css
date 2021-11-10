@@ -1,0 +1,14 @@
+.mat-headline{
+    margin:0;
+}
+
+a{
+  text-decoration: none;
+}
+
+mat-toolbar{
+  justify-content:space-between;
+  background-color:rgb(112, 239, 248);
+  padding: 0px 6%;
+  height: 3rem;
+}

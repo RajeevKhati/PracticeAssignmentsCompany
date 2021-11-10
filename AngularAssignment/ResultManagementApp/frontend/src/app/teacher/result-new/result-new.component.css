@@ -1,0 +1,24 @@
+.example-form {
+  min-width: 150px;
+  max-width: 500px;
+  width: 100%;
+  margin: 1rem auto;
+}
+
+.example-full-width {
+  width: 100%;
+}
+
+button{
+  margin-top: 1rem;
+  margin-right: 1rem;
+}
+
+.mat-display-1{
+  margin: 1rem 0px 2rem 0px;
+}
+
+.backButton{
+  margin-left: 2rem;
+  background-color: dimgrey;
+}

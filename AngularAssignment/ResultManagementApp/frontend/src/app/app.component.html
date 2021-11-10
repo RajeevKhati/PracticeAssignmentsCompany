@@ -1,0 +1,6 @@
+<mat-toolbar>
+    <p class="mat-headline"><a routerLink="/">Result Management App</a></p>
+    <span *ngIf="router.url!=='/'"><a routerLink="/">Logout</a></span>
+</mat-toolbar>
+
+<router-outlet></router-outlet>

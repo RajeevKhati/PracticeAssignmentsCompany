@@ -1,0 +1,23 @@
+<button mat-raised-button (click)="goBack()" class="backButton">
+  <mat-icon>arrow_back_ios_new</mat-icon>Back
+</button>
+
+<mat-card class="example-card">
+  <mat-card-title>Result</mat-card-title>
+  <mat-divider inset></mat-divider>
+  <mat-card-content>
+    <mat-grid-list cols="2" rowHeight="50px">
+      <mat-grid-tile><p class="right-align"><strong>Roll Number :</strong></p></mat-grid-tile>
+      <mat-grid-tile><p class="left-align">{{ searchedResult.rollNumber }}</p></mat-grid-tile>
+
+      <mat-grid-tile><p class="right-align"><strong>Name :</strong></p></mat-grid-tile>
+      <mat-grid-tile><p class="left-align">{{ searchedResult.name }}</p></mat-grid-tile>
+
+      <mat-grid-tile><p class="right-align"><strong>Date Of Birth :</strong></p></mat-grid-tile>
+      <mat-grid-tile><p class="left-align">{{ searchedResult.dateOfBirth | date:'longDate' }}</p></mat-grid-tile>
+
+      <mat-grid-tile><p class="right-align"><strong>Score :</strong></p></mat-grid-tile>
+      <mat-grid-tile><p class="left-align">{{ searchedResult.score }}</p></mat-grid-tile>
+    </mat-grid-list>
+  </mat-card-content>
+</mat-card>

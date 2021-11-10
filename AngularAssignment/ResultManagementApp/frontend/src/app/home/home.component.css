@@ -1,0 +1,15 @@
+.container{
+    width: 50%;
+    text-align: center;
+    margin: 1rem auto;
+    padding: 1rem;
+}
+
+button{
+    width: 40%;
+    margin:1rem;
+}
+
+.mat-display-1{
+    margin: 1rem;
+}
